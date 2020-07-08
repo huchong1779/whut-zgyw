@@ -16,12 +16,15 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 let tray = null
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     width: 362,
     height: 274,
     useContentSize: true,
-    transparent: true
+    transparent: true,
+    webPreferences: {
+      nodeIntegration: true //在网页中集成Node
+    }
   })
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
@@ -60,7 +63,7 @@ function createWindow () {
   // 创建系统通知区菜单
   tray = new Tray(`${__static}/icon.ico`)
   const contextMenu = Menu.buildFromTemplate([
-    {label: '退出', click: () => { mainWindow.destroy() }} // 我们需要在这里有一个真正的退出（这里直接强制退出）
+    { label: '退出', click: () => { mainWindow.destroy() } } // 我们需要在这里有一个真正的退出（这里直接强制退出）
   ])
   tray.setToolTip('中国语文')
   tray.setContextMenu(contextMenu)
